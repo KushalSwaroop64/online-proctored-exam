@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Proctoring Security System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <h1 class="title">🔐 Exam Proctoring Security System</h1>
+  <p class="subtitle">Take Exam → Auto Encrypt → Verify → Decrypt</p>
+
+  <!-- TAB BUTTONS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('exam')">1️⃣ Take Exam</button>
+    <button class="tab-btn" onclick="switchTab('encrypt')">2️⃣ Encryption Details</button>
+    <button class="tab-btn" onclick="switchTab('verify')">3️⃣ Verify Integrity</button>
+    <button class="tab-btn" onclick="switchTab('decrypt')">4️⃣ Decrypt Video</button>
+  </div>
+
+  <!-- ====================== SECTION 1: TAKE EXAM ====================== -->
+  <div id="exam" class="tab-section show">
+    <div class="card">
+      <h2>📝 Section 1: Take Exam</h2>
+      
+      
+      
+      <label>👤 Student ID</label>
+      <input id="studentId" type="text" placeholder="Enter student ID (e.g., STU12345)" />
+      
+      <label>📝 Exam ID</label>
+      <input id="examId" type="text" placeholder="Enter exam ID (e.g., EXAM-CS101-FINAL)" />
+      
+      <label>✍️ Exam Answers (Optional)</label>
+      <textarea id="examAnswers" placeholder="Enter your exam answers here...
+Example:
+Q1: Answer A
+Q2: Answer B
+Q3: Answer C"></textarea>
+      
+      <button id="startExamBtn" onclick="startExam()" class="btn">🎥 Start Exam & Recording</button>
+      <button id="submitExamBtn" onclick="submitExam()" class="btn btn-success" disabled>✅ Submit Exam</button>
+      
+      <div id="recordingIndicator" class="recording-indicator">
+        <div class="recording-dot"></div>
+        <span>Exam in Progress - Recording...</span>
+      </div>
+      
+      <video id="videoPreview" autoplay muted></video>
+      
+      <div id="examStatus" class="status-box"></div>
+      <pre id="examOutput"></pre>
+    </div>
+  </div>
+
+  <!-- ====================== SECTION 2: ENCRYPTION DETAILS ====================== -->
+  <div id="encrypt" class="tab-section">
+    <div class="card">
+      <h2>🔒 Section 2: Encryption & Signing Details</h2>
+      
+      <div class="info-card">
+        <h3>Current Session</h3>
+        <p id="sessionInfo">No session started yet. Complete Section 1 first.</p>
+      </div>
+      
+      <div class="info-text">
+        <strong>Note:</strong> Encryption happens <strong>automatically</strong> right after you submit the exam.
+        This section shows:
+        <ul>
+          <li>AES-256-GCM Session Key</li>
+         
+          <li>SHA-256 hash of video & exam data</li>
+          <li>RSA-PSS Digital Signature</li>
+          
+        </ul>
+      </div>
+      
+      <div id="encryptStatus" class="status-box"></div>
+      <pre id="encryptOutput"></pre>
+    </div>
+  </div>
+
+  <!-- ====================== SECTION 3: TAMPER DETECTION ====================== -->
+  <div id="verify" class="tab-section">
+    <div class="card">
+      <h2>🛡️ Section 3: Verify Integrity (Tamper Detection)</h2>
+      
+      <div class="info-text">
+        This section checks if the video or exam data has been tampered with using cryptographic verification.
+      </div>
+      
+      <button onclick="verifyIntegrity()" class="btn verify-btn" id="verifyBtn" disabled>✅ Verify Integrity</button>
+      
+      <div id="verifyStatus" class="status-box"></div>
+      <pre id="verifyOutput"></pre>
+      
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>🎥 Video Check</h3>
+          <p>Compares SHA-256 hash of current video with original</p>
+        </div>
+        <div class="info-card">
+          <h3>📋 Data Check</h3>
+          <p>Verifies RSA-PSS digital signature on exam data</p>
+        </div>
+        <div class="info-card">
+          <h3>🔍 Result</h3>
+          <p>Shows VERIFIED or TAMPERED status</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== SECTION 4: DECRYPTION ====================== -->
+  <div id="decrypt" class="tab-section">
+    <div class="card">
+      <h2>🔓 Section 4: Decrypt Video</h2>
+      
+      <div class="info-text">
+        Enter the session key to decrypt the encrypted exam video.
+        Only authorized parties with the correct key can access the original recording.
+      </div>
+      
+      <label>🔑 Session Key</label>
+      <input id="sessionKeyInput" type="text" placeholder="Session key will auto-fill after encryption" />
+      
+      <button onclick="decryptVideo()" class="btn decrypt-btn" id="decryptBtn" disabled>🔓 Decrypt Video</button>
+      
+      <div id="decryptStatus" class="status-box"></div>
+      <pre id="decryptOutput"></pre>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
